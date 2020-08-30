@@ -58,7 +58,7 @@
                 case 6:
                     return "Saturday";
                     break;
-                case 7:
+                case 0:
                     return "Sunday";
             };
         };
@@ -87,7 +87,7 @@
                 return addZero(hour - 12);
             } else {
                 return addZero(time.getHours().toString());
-                timeFlag = "AM  ";
+                timeFlag = "AM ";
             };
         };
 
