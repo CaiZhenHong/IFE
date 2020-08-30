@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码03</title>
+</head>
+
+<body>
+    <div id="fade-obj" style="width:300px;height:300px;background:#000"></div>
+    <button id="fade-btn">淡出</button>
+
+    <script>
+        /* 
+            1. 点击按钮时，开始改变 fade-obj 的透明度，开始一个淡出（逐渐消失）动画，直到透明度为0
+            2. 在动画过程中，按钮的状态变为不可点击
+            3. 在动画结束后，按钮状态恢复，且文字变成“淡入”
+            4. 在 按钮显示 淡入 的状态时，点击按钮，开始一个“淡入”（逐渐出现）的动画，和上面类似按钮不可点，直到透明度完全不透明
+            5. 淡入动画结束后，按钮文字变为“淡出”
+            6. 暂时不要使用 CSS animation （以后我们再学习）
+         */
+        let fadeObj = document.getElementById("fade-obj");
+        let fadeBtn = document.getElementById("fade-btn");
+        let flag = 0;
+
+        fadeBtn.onclick = function () {
+            if(flag == 0){
+                Fadeout(256);
+                flag = 1;
+                fadeBtn.innerHTML = "淡入";
+                fadeBtn.disabled = true;
+            }else{
+                Fadein(0);
+                flag = 0;
+                fadeBtn.innerHTML = "淡出";
+                fadeBtn.disabled = true;
+            };
+        };
+
+        function Fadeout(transValue) {
+            var time = setInterval(() => {
+                transValue--;
+                var transValue16 = transValue.toString(16);
+                if (transValue16.length == 1) {
+                    transValue16 = "0" + transValue16;
+                };
+                fadeObj.style.backgroundColor = "#000000" + transValue16;
+                if (transValue == 0) {
+                    clearInterval(time);
+                    fadeBtn.disabled = false;
+                }
+            }, 10);
+        };
+        function Fadein(transValue) {
+            var time = setInterval(() => {
+                transValue++;
+                var transValue16 = transValue.toString(16);
+                if (transValue16.length == 1) {
+                    transValue16 = "0" + transValue16;
+                };
+                fadeObj.style.backgroundColor = "#000000" + transValue16;
+                if (transValue == 256) {
+                    clearInterval(time);
+                    fadeBtn.disabled = false;
+                }
+            }, 10);
+        };
+    </script>
+</body>
+
+</html>

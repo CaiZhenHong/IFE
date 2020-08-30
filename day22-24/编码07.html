@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码07</title>
+</head>
+
+<body>
+    <input id="stack-input" type="text">
+    <p id="stack-cont">栈内容：apple-&gt;pear</p>
+    <button id="push-btn">进栈</button>
+    <button id="pop-btn">退栈</button>
+    <button id="font-btn">打印栈顶元素内容</button>
+    <button id="empty-btn">判断栈是否为空</button>
+
+    <script>
+        var stack = ["apple", "pear"];
+        let stackInput = document.getElementById("stack-input");
+        let stackCont = document.getElementById("stack-cont");
+
+        let pushBtn = document.getElementById("push-btn");
+        let popBtn = document.getElementById("pop-btn");
+        let FontBtn = document.getElementById("font-btn");
+        let emptyBtn = document.getElementById("empty-btn");
+
+        pushBtn.addEventListener("click", function () {
+            stack.push(stackInput.value);
+            stackCont.innerHTML = "栈内容：" + stack.join("-" + "&gt;")
+        });
+        popBtn.addEventListener('click', function () {
+            stack.pop(stackInput.value);
+            stackCont.innerHTML = "栈内容：" + stack.join("-" + "&gt;");
+        });
+        FontBtn.addEventListener('click', function () {
+            stackCont.innerHTML = "栈内容：" + stack[(stack.length) - 1];
+        });
+        emptyBtn.addEventListener('click', function () {
+            if (stack.toString() == "") {
+                stackCont.innerHTML = "空栈";
+            } else {
+                stackCont.innerHTML = "非空栈";
+            };
+        });
+    </script>
+</body>
+
+</html>

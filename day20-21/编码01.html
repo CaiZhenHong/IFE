@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码01</title>
+</head>
+
+<body>
+    <input id="name" type="text">
+    <button id="submit-btn">Submit</button>
+
+    <script>
+        /* 
+            1. 当点击按钮 submit-btn 时，在console中输出 name 中的内容
+            2. 在输入过程中，如果按回车键，则同样执行上一条的需求
+            3. 在输入过程中，如果按 ESC 键，则把输入框中的内容清空
+         */
+         let inputName = document.getElementById('name');
+         let submitBtn = document.getElementById('submit-btn');
+
+         submitBtn.onclick = function(){
+             console.log(inputName.value);
+         };
+
+         inputName.onkeydown = function(event){
+            if( (event.which || event.onkeyCode ) == 13 ){
+                console.log(inputName.value);
+            }else if( (event.which || event.onkeyCode ) == 27 ){
+                inputName.value = "";
+            };
+         };
+    </script>
+</body>
+
+</html>

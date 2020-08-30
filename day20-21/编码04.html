@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码04</title>
+    <style>
+        div {
+            box-sizing: content-box;
+            height: 480px;
+            width: 480px;
+            margin: 0 auto;
+
+            background: url(smile.jpg);
+
+        }
+    </style>
+</head>
+
+<body>
+    <div></div>
+    <script>
+        let getDiv = document.getElementsByTagName('div')[0];
+        let btn = document.getElementsByTagName("button")[0];
+        let flag = 0;
+        if (flag == 0) {
+            Play();
+
+        } else if (flag == 1) {
+            Yalp();
+        };
+
+        function Play() {
+            let page = 1;
+            let flag = 0;
+            var playSmile = setInterval(() => {
+                let scaleY = 480 * page;
+                if (flag == 0) {
+                    page++;
+                    getDiv.style.backgroundPositionY = scaleY.toString(10) + "px";
+                    console.log("第" + page + "张" + "\t" + "flag:" + flag);
+                    if (page == 17) {
+                        flag = 1
+                    };
+                };
+                if (flag == 1) {
+                    page--;
+                    getDiv.style.backgroundPositionY = scaleY.toString(10) + "px";
+                    console.log("第" + page + "张" + "\t" + "flag:" + flag);
+                    if (page == 1) {
+                        flag = 0
+                    };
+                }
+            }, 100);
+        };
+    </script>
+</body>
+
+</html>

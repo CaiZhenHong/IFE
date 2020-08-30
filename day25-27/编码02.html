@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码01</title>
+</head>
+
+<body>
+    <p id="time"></p>
+    <script>
+        /* 
+           1. 在页面中显示当前日期及时间，按秒更新
+           2. 格式为 YYYY 年 MM 月 DD 日 星期 D HH:mm:ss
+           3. 注意位数的补齐，比如：
+            -- 假设时间为2008年10月10日星期一的12点12分12秒，显示2008年10月10日星期一 12:12:12
+            -- 假设时间为2008年1月1日星期一的3点2分2秒，显示2008年01月01日星期一 03:02:02
+           4. 编码过程中，我们希望你注意对函数的封装，尽量让一个函数就做一个事情，而不要把所有的功能、代码揉在一起：
+
+           5. 封装一个函数，来根据某个日期返回这一天是星期几
+           6. 封装一个函数，把月、日、小时等出现个位数的情况前面补充0，补充为两位，比如1变为01
+           7. 封装一个函数，把最后的日期时间，按照要求的格式进行包装
+           8. 可能不止上面这些，尽可能地进行功能的解耦和拆解
+         */
+        //输出格式变为：2008-10-10 Monday 07:10:30 PM
+        let timeout = document.getElementById("time");
+        var timeFlag = "";
+
+        window.setInterval(function () {
+            timeout.innerHTML = InDate(year(), month(), day(), week(), hours(), minutes(), seconds()) + "\t" +
+                timeFlag;
+        }, 500);
+
+        function InDate(year, month, day, week, hour, minute, second) {
+            let str = year + "-" + month + "-" + day + "\t" + week + "\t" + hour + ":" + minute + ":" + second;
+            return str;
+        }
+
+        function week() {
+            let time = new Date();
+            switch (time.getDay()) {
+                case 1:
+                    return "Monday";
+                    break;
+                case 2:
+                    return "Tuesday";
+                    break;
+                case 3:
+                    return "Wednesday";
+                    break;
+                case 4:
+                    return "Thursday";
+                    break;
+                case 5:
+                    return "Friday";
+                    break;
+                case 6:
+                    return "Saturday";
+                    break;
+                case 7:
+                    return "Sunday";
+            };
+        };
+
+        function year() {
+            let time = new Date();
+            return time.getFullYear();
+        };
+
+        function month() {
+            let time = new Date();
+            return addZero((time.getMonth() + 1).toString());
+        };
+
+        function day() {
+            let time = new Date();
+            return addZero(time.getDate().toString());
+        };
+
+
+        function hours() {
+            let time = new Date();
+            let hour = time.getHours();
+            if (hour > 12) {
+                timeFlag = "PM";
+                return addZero(hour - 12);
+            } else {
+                return addZero(time.getHours().toString());
+                timeFlag = "AM  ";
+            };
+        };
+
+        function minutes() {
+            let time = new Date();
+            return addZero(time.getMinutes().toString());
+        };
+
+        function seconds() {
+            let time = new Date();
+            return addZero(time.getSeconds().toString());
+        };
+
+        function addZero(date) {
+            if (date.length == 1) {
+                return "0" + date;
+            } else {
+                return date;
+            };
+        };
+    </script>
+</body>
+
+</html>
