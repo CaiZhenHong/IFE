@@ -1,0 +1,153 @@
+<!DOCTYPE HTML />
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>index</title>
+    <style>
+        ul,
+        li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        li:hover {
+            background-color: aquamarine;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <input id="email-input" type="text">
+        <ul id="email-sug-wrapper" class="email-sug"></ul>
+    </div>
+    <script>
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+        var emailInput = document.getElementById("email-input");
+        var emailTip = document.getElementById("email-sug-wrapper");
+        var nodeNum = 0;  //第nodenum个“li”节点
+        var key;//获取到的建值
+        emailInput.onkeyup = function (event) {
+            addTip(event);
+            showOrHidden();
+            keyListen();
+        }
+        emailTip.addEventListener('click', function (event) {
+            emailInput.value = HtmlUtil.htmlDecode(event.target.innerHTML);
+            hidden();
+        })
+
+
+        function getInput() {
+            return inputvalue = emailInput.value.replace(/\s/g, "");
+        }
+
+        function generateTip() {
+            let inputContent = HtmlUtil.htmlEncode(getInput());
+            let endContent = "";
+            let list = [];
+            let exp = new RegExp();
+            if (/@/.test(inputContent)) {
+                endContent = inputContent.substr(inputContent.indexOf("@") + 1);
+                inputContent = inputContent.slice(0, inputContent.indexOf("@"));
+                exp = new RegExp(endContent, "g");
+                for (let i = 0; i < postfixList.length; i++) {
+                    if (exp.test(postfixList[i])) {
+                        list.push("<li>" + inputContent + "@" + postfixList[i] + "</li>");
+                    }
+                }
+            } else {
+                for (let i = 0; i < postfixList.length; i++) {
+                    list.push("<li>" + inputContent + "@" + postfixList[i] + "</li>");
+                }
+            }
+            return list;
+        }
+
+        function addTip(event) {
+            let list = generateTip().join("");
+            emailTip.innerHTML = list;
+            key = event.keyCode || event.which;
+            if (/(13|40|38)/.test(key) == false) {
+                reset();
+            }
+        }
+
+        function showOrHidden() {
+            if (getInput() == "") {
+                hidden();
+            } else {
+                show();
+            }
+        }
+
+        function hidden() {
+            emailTip.style.display = "none";
+        }
+
+        function show() {
+            emailTip.style.display = "block";
+        }
+
+        function reset() {
+
+            emailTip.childNodes[0].style.backgroundColor = "blue";
+        }
+
+        function keyListen() {
+                key = event.keyCode || event.which;
+                if (key == 40) {
+                    nodeNum++;
+                    while (nodeNum == emailTip.childNodes.length) {
+                        nodeNum = 0;
+                    }
+                    emailTip.childNodes[nodeNum].style.backgroundColor = "blue";
+                }
+                if (key == 38) {
+                    if (nodeNum == 0) {
+                        nodeNum = emailTip.childNodes.length - 1;
+                    } else {
+                        nodeNum--;
+                    }
+                    emailTip.childNodes[nodeNum].style.backgroundColor = "blue";
+                }
+                if (key == 13) {
+                    console.log(nodeNum);
+                    emailInput.value = HtmlUtil.htmlDecode(emailTip.childNodes[nodeNum].innerHTML);
+                    hidden();
+                }
+
+        }
+
+        var HtmlUtil = {
+            /*1.用浏览器内部转换器实现html转码*/
+            htmlEncode: function (html) {
+                //1.首先动态创建一个容器标签元素，如DIV
+                var temp = document.createElement("div");
+                //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+                (temp.textContent != undefined) ? (temp.textContent = html) : (temp.innerText = html);
+                //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+                var output = temp.innerHTML;
+                temp = null;
+                return output;
+            },
+            /*2.用浏览器内部转换器实现html解码*/
+            htmlDecode: function (text) {
+                //1.首先动态创建一个容器标签元素，如DIV
+                var temp = document.createElement("div");
+                //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+                temp.innerHTML = text;
+                //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+                var output = temp.innerText || temp.textContent;
+                temp = null;
+                return output;
+            },
+        };
+    </script>
+</body>
+
+</html>
